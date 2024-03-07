@@ -1,5 +1,9 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import Table from '@/components/table/index.vue'
+</script>
 
-<template></template>
-
-<style scoped></style>
+<template>
+  <section>
+    <Table />
+  </section>
+</template>

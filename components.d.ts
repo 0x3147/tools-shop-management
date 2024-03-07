@@ -8,6 +8,8 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     HeadBar: typeof import('./src/components/head-bar/index.vue')['default']
+    NDataTable: typeof import('naive-ui')['NDataTable']
+    NGradientText: typeof import('naive-ui')['NGradientText']
     NLayout: typeof import('naive-ui')['NLayout']
     NLayoutContent: typeof import('naive-ui')['NLayoutContent']
     NLayoutHeader: typeof import('naive-ui')['NLayoutHeader']
@@ -17,5 +19,6 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SideBar: typeof import('./src/components/side-bar/index.vue')['default']
+    Table: typeof import('./src/components/table/index.vue')['default']
   }
 }

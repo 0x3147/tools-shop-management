@@ -10,8 +10,8 @@ import HeadBar from '@/components/head-bar/index.vue'
         <HeadBar />
         <n-layout has-sider>
           <SideBar />
-          <section class="p-4">
-            <n-layout-content>
+          <section class="w-full bg-[#E6E6FA] p-4">
+            <n-layout-content class="p-4">
               <router-view />
             </n-layout-content>
           </section>
