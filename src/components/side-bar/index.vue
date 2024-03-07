@@ -38,6 +38,7 @@ const handleMenuSelect = (key: string) => {
 
 <template>
   <n-layout-sider
+    class="min-h-screen"
     bordered
     show-trigger
     collapse-mode="width"
