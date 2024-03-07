@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useRouter, useRoute } from 'vue-router'
 import { MenuOption } from 'naive-ui'
+import { VNode } from 'vue'
 
 const router = useRouter()
 const route = useRoute()
@@ -11,7 +12,8 @@ const menuOptions = computed<MenuOption[]>(() => {
     .map((r) => {
       const option: MenuOption = {
         label: r.meta!.title as string,
-        key: r.name as string
+        key: r.name as string,
+        icon: r.meta!.icon as () => VNode
       }
 
       if (r.children) {

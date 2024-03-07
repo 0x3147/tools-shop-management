@@ -1,4 +1,6 @@
 import { Layout } from '@/router/constant'
+import { renderIcon } from '@/utils'
+import { UserOutlined } from '@vicons/antd'
 import { type RouteRecordRaw } from 'vue-router'
 
 const usersRoutes: RouteRecordRaw[] = [
@@ -8,7 +10,7 @@ const usersRoutes: RouteRecordRaw[] = [
     redirect: '/users/common-user',
     meta: {
       title: '用户管理',
-      icon: ''
+      icon: renderIcon(UserOutlined)
     },
     component: Layout,
     children: [

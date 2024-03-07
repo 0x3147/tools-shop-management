@@ -1,4 +1,6 @@
 import { Layout } from '@/router/constant'
+import { renderIcon } from '@/utils'
+import { DashboardOutlined } from '@vicons/antd'
 import { type RouteRecordRaw } from 'vue-router'
 
 const dashboardRoutes: RouteRecordRaw[] = [
@@ -8,7 +10,7 @@ const dashboardRoutes: RouteRecordRaw[] = [
     redirect: '/dashboard/console',
     meta: {
       title: 'Dashboard',
-      icon: ''
+      icon: renderIcon(DashboardOutlined)
     },
     component: Layout,
     children: [
