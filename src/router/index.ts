@@ -1,11 +1,16 @@
 import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
 
 // 使用 glob 导入来自动导入 module 目录下的所有路由模块
-const routeModuleFiles = import.meta.glob('../module/**/*.ts', {
+const routeModuleFiles = import.meta.glob('./module/**/*.ts', {
   eager: true
 }) as Record<string, { default: RouteRecordRaw[] }>
 
 const routes: RouteRecordRaw[] = [
+  {
+    path: '/',
+    name: 'Root',
+    redirect: '/dashboard/console'
+  },
   {
     path: '/login',
     name: 'login',
