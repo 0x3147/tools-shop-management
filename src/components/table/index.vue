@@ -24,6 +24,16 @@ const props = defineProps({
 
 const columns = ref<TableColumn[]>([
   {
+    title: '序号',
+    key: 'index',
+    width: 35,
+    align: 'center',
+    render: (rowData: any) => {
+      const index = props.data.findIndex(item => item.postId === rowData.postId)
+      return index + 1
+    }
+  },
+  {
     title: '用户ID',
     key: 'postId',
     width: 120,
