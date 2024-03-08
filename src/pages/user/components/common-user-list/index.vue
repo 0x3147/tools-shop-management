@@ -19,7 +19,7 @@ const pagination = ref({
   itemCount: 10,
   pageSize: 10,
   showSizePicker: true,
-  pageSizes: [10],
+  pageSizes: [10, 30, 50, 100],
   onChange: (page: number) => {
     pagination.value.page = page
   },
@@ -41,7 +41,16 @@ watch(
   () => pagination.value.page,
   (newData) => {
     if (newData !== undefined) {
-      run({ currentPage: newData, pageSize: 10 })
+      run({ currentPage: newData, pageSize: pagination.value.pageSize })
+    }
+  }
+)
+
+watch(
+  () => pagination.value.pageSize,
+  (newData) => {
+    if (newData !== undefined) {
+      run({ currentPage: pagination.value.page, pageSize: newData })
     }
   }
 )
