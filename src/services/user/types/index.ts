@@ -17,4 +17,5 @@ export interface IQCommonUserRes {
   tableData: tableData[]
   total: number
   currentPage: number
+  lastPage: number
 }

@@ -15,6 +15,10 @@ const props = defineProps({
   otherColumns: {
     type: Array as PropType<TableColumn[]>,
     default: () => []
+  },
+  pagination: {
+    type: Object as PropType<any>,
+    default: () => ({})
   }
 })
 
@@ -67,5 +71,6 @@ const finalColumns = computed(() => {
     :columns="finalColumns"
     :data="data"
     :loading="loading"
+    :pagination="pagination"
   />
 </template>

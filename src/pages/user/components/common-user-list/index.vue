@@ -1,15 +1,50 @@
 <script setup lang="tsx">
 import Table from '@/components/table/index.vue'
 import { queryCommonUser } from '@/services/user'
-import { IQCommonUserRes } from '@/services/user/types'
-import { TableColumn } from 'naive-ui/es/data-table/src/interface'
+import type { TableColumn } from 'naive-ui/es/data-table/src/interface'
+import { useRequest } from 'vue-hooks-plus'
+import type { IQueryCommonUserParam } from '@/services/user/types'
 
-const commonUserResource = ref<IQCommonUserRes>({} as IQCommonUserRes)
-const loading = ref(false)
+const fetchCommonUser = async (params: IQueryCommonUserParam) => {
+  return await queryCommonUser(params)
+}
 
-onMounted(async () => {
-  commonUserResource.value = await fetchCommonUser()
+const { data, loading, run } = useRequest(fetchCommonUser, {
+  defaultParams: [{ currentPage: 1, pageSize: 10 }]
 })
+
+const pagination = ref({
+  page: 1,
+  pageCount: 1,
+  itemCount: 10,
+  pageSize: 10,
+  showSizePicker: true,
+  pageSizes: [10],
+  onChange: (page: number) => {
+    pagination.value.page = page
+  },
+  onUpdatePageSize: (pageSize: number) => {
+    pagination.value.pageSize = pageSize
+    pagination.value.page = 1
+  }
+})
+
+watch(data, (newValue) => {
+  if (newValue !== undefined) {
+    pagination.value.page = newValue.currentPage
+    pagination.value.pageCount = newValue.lastPage
+    pagination.value.itemCount = newValue.total
+  }
+})
+
+watch(
+  () => pagination.value.page,
+  (newData) => {
+    if (newData !== undefined) {
+      run({ currentPage: newData, pageSize: 10 })
+    }
+  }
+)
 
 const columns: TableColumn[] = [
   {
@@ -55,23 +90,13 @@ const columns: TableColumn[] = [
     }
   }
 ]
-
-const fetchCommonUser = async () => {
-  const params = {
-    currentPage: 1,
-    pageSize: 10
-  }
-  loading.value = true
-  const res = await queryCommonUser(params)
-  loading.value = false
-  return res
-}
 </script>
 
 <template>
   <Table
-    :data="commonUserResource.tableData"
+    :data="data?.tableData"
     :loading="loading"
     :other-columns="columns"
+    :pagination="pagination"
   />
 </template>
