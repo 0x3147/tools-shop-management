@@ -5,7 +5,7 @@
     <n-space class="cursor-pointer" align="center">
       <img class="h-16" src="../../../public/logo.png" alt="" />
       <n-gradient-text class="text-3xl" type="danger">
-        跳跳科技后台管理
+        jump management
       </n-gradient-text>
     </n-space>
   </n-layout-header>
