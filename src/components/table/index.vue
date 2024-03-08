@@ -1,90 +1,71 @@
-<template>
-  <n-data-table
-    remote
-    :single-line="false"
-    single-column
-    :columns="columns"
-    :data="data"
-  />
-</template>
-
 <script setup lang="tsx">
 import type { tableData } from '@/services/user/types'
 import dayjs from 'dayjs'
+import { TableColumn } from 'naive-ui/es/data-table/src/interface'
 
-defineProps({
+const props = defineProps({
   data: {
     type: Array as PropType<tableData[]>,
+    default: () => []
+  },
+  loading: {
+    type: Boolean,
+    default: false
+  },
+  otherColumns: {
+    type: Array as PropType<TableColumn[]>,
     default: () => []
   }
 })
 
-const columns = [
+const columns = ref<TableColumn[]>([
   {
     title: '用户ID',
     key: 'postId',
-    width: 120
+    width: 120,
+    align: 'center'
   },
   {
     title: '用户名',
     key: 'username',
-    width: 120
+    width: 120,
+    align: 'center'
   },
   {
     title: '邮箱',
     key: 'email',
-    width: 120
+    width: 120,
+    align: 'center'
   },
   {
     title: '是否冻结',
     key: 'isFrozen',
     width: 80,
-    render: (rowData: tableData) => (rowData.isFrozen ? '是' : '否')
+    align: 'center',
+    render: (rowData: any) => (rowData.isFrozen ? '是' : '否')
   },
   {
     title: '创建时间',
     key: 'createdTime',
     width: 120,
-    render: (rowData: tableData) =>
+    align: 'center',
+    render: (rowData: any) =>
       dayjs(rowData.createTime).format('YYYY-MM-DD HH:mm:ss')
-  },
-  {
-    title: '操作',
-    key: 'action',
-    width: 120,
-    render: (row: tableData) => {
-      return (
-        <n-space>
-          <n-button
-            text
-            size="small"
-            onClick={() => {
-              console.log(row)
-            }}
-          >
-            冻结
-          </n-button>
-          <n-button
-            text
-            size="small"
-            onClick={() => {
-              console.log(row)
-            }}
-          >
-            升级为会员
-          </n-button>
-          <n-button
-            text
-            size="small"
-            onClick={() => {
-              console.log(row)
-            }}
-          >
-            删除
-          </n-button>
-        </n-space>
-      )
-    }
   }
-]
+])
+
+const finalColumns = computed(() => {
+  return columns.value.concat(props.otherColumns)
+})
 </script>
+
+<template>
+  <n-data-table
+    remote
+    :single-line="false"
+    single-column
+    :columns="finalColumns"
+    :data="data"
+    :loading="loading"
+  />
+</template>
