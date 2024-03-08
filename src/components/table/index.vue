@@ -29,7 +29,9 @@ const columns = ref<TableColumn[]>([
     width: 35,
     align: 'center',
     render: (rowData: any) => {
-      const index = props.data.findIndex(item => item.postId === rowData.postId)
+      const index = props.data.findIndex(
+        (item) => item.postId === rowData.postId
+      )
       return index + 1
     }
   },
