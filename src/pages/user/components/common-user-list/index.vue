@@ -74,16 +74,31 @@ const columns: TableColumn[] = [
           >
             升级会员
           </n-button>
-          <n-button
-            text
-            type="warning"
-            size="small"
-            onClick={() => {
-              alert(row.postId)
-            }}
-          >
-            冻结
-          </n-button>
+
+          {row.isFrozen ? (
+            <n-button
+              text
+              type="warning"
+              size="small"
+              onClick={() => {
+                alert('解冻')
+              }}
+            >
+              解冻
+            </n-button>
+          ) : (
+            <n-button
+              text
+              type="warning"
+              size="small"
+              onClick={() => {
+                alert('冻结')
+              }}
+            >
+              冻结
+            </n-button>
+          )}
+
           <n-button
             text
             type="error"
