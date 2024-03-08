@@ -1,6 +1,5 @@
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
-import { VueHooksPlusResolver } from '@vue-hooks-plus/resolvers'
 import autoprefixer from 'autoprefixer'
 import path from 'path'
 import tailwindcss from 'tailwindcss'
@@ -18,7 +17,7 @@ export default defineConfig({
       imports: ['vue', 'vue-router', 'pinia']
     }),
     Components({
-      resolvers: [NaiveUiResolver(), VueHooksPlusResolver()]
+      resolvers: [NaiveUiResolver()]
     })
   ],
   css: {

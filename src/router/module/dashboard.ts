@@ -9,7 +9,7 @@ const dashboardRoutes: RouteRecordRaw[] = [
     name: 'Dashboard',
     redirect: '/dashboard/console',
     meta: {
-      title: 'Dashboard',
+      title: '仪表盘',
       icon: renderIcon(DashboardOutlined)
     },
     component: Layout,

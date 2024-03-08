@@ -22,16 +22,6 @@ const columns: TableColumn[] = [
         <n-space>
           <n-button
             text
-            type="warning"
-            size="small"
-            onClick={() => {
-              alert(row)
-            }}
-          >
-            冻结
-          </n-button>
-          <n-button
-            text
             type="info"
             size="small"
             onClick={() => {
@@ -39,6 +29,16 @@ const columns: TableColumn[] = [
             }}
           >
             升级会员
+          </n-button>
+          <n-button
+            text
+            type="warning"
+            size="small"
+            onClick={() => {
+              alert(row.postId)
+            }}
+          >
+            冻结
           </n-button>
           <n-button
             text
