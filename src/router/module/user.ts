@@ -15,22 +15,20 @@ const usersRoutes: RouteRecordRaw[] = [
     component: Layout,
     children: [
       {
-        path: 'common-user',
-        name: 'common-user',
+        path: 'common',
+        name: 'common',
         meta: { title: '普通用户列表' },
-        component: () =>
-          import('@/pages/user/components/common-user-list/index.vue')
+        component: () => import('@/pages/user/components/common-list/index.vue')
       },
       {
-        path: 'vip-user',
-        name: 'vip-user',
+        path: 'member',
+        name: 'member',
         meta: { title: '会员列表' },
-        component: () =>
-          import('@/pages/user/components/vip-user-list/index.vue')
+        component: () => import('@/pages/user/components/member-list/index.vue')
       },
       {
-        path: 'admin-user',
-        name: 'admin-user',
+        path: 'admin',
+        name: 'admin',
         meta: { title: '管理员列表' },
         component: () => import('@/pages/user/components/admin-list/index.vue')
       }
