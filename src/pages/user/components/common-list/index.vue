@@ -66,7 +66,7 @@ const columns: TableColumn[] = [
         <n-space>
           <n-button
             text
-            type="info"
+            type="success"
             size="small"
             onClick={() => {
               console.log(row)

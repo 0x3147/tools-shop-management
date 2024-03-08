@@ -3,6 +3,7 @@ export interface IQueryCommonUserParam {
   pageSize: number
   username?: string
   email?: string
+  isFrozen?: boolean
 }
 
 export interface tableData {
