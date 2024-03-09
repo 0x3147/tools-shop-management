@@ -6,15 +6,13 @@ import HeadBar from '@/components/head-bar/index.vue'
 <template>
   <main class="h-screen overflow-hidden">
     <n-space vertical>
-      <n-layout class="w-full">
+      <n-layout>
         <HeadBar />
         <n-layout has-sider>
           <SideBar />
-          <section class="w-full bg-[#E6E6FA] p-4">
-            <n-layout-content class="p-4">
-              <router-view />
-            </n-layout-content>
-          </section>
+          <n-layout-content embedded class="p-10">
+            <router-view />
+          </n-layout-content>
         </n-layout>
       </n-layout>
     </n-space>
