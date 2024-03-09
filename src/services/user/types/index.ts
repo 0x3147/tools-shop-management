@@ -6,6 +6,10 @@ export interface IQueryCommonUserParam {
   isFrozen?: boolean
 }
 
+export interface IFreezeUserParam {
+  postId: number | bigint
+}
+
 export interface tableData {
   postId: number | bigint
   username: string

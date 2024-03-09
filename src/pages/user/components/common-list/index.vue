@@ -1,10 +1,17 @@
 <script setup lang="tsx">
 import Table from '@/components/table/index.vue'
 import SearchForm, { FormField } from '@/components/search-form/index.vue'
-import { queryCommonUser } from '@/services/user'
+import { freezeUser, queryCommonUser, unfreezeUser } from '@/services/user'
 import type { TableColumn } from 'naive-ui/es/data-table/src/interface'
 import { useRequest } from 'vue-hooks-plus'
-import type { IQueryCommonUserParam } from '@/services/user/types'
+import type {
+  IFreezeUserParam,
+  IQueryCommonUserParam
+} from '@/services/user/types'
+import { useDialog, useMessage } from 'naive-ui'
+
+const message = useMessage()
+const dialog = useDialog()
 
 const columns: TableColumn[] = [
   {
@@ -31,9 +38,11 @@ const columns: TableColumn[] = [
               text
               type="warning"
               size="small"
-              onClick={() => {
-                alert('解冻')
-              }}
+              onClick={() =>
+                handleRunUnFreeze({
+                  postId: row.postId
+                })
+              }
             >
               解冻
             </n-button>
@@ -42,9 +51,7 @@ const columns: TableColumn[] = [
               text
               type="warning"
               size="small"
-              onClick={() => {
-                alert('冻结')
-              }}
+              onClick={() => handleRunFreeze({ postId: row.postId })}
             >
               冻结
             </n-button>
@@ -66,30 +73,6 @@ const columns: TableColumn[] = [
   }
 ]
 
-const fetchCommonUser = async (params: IQueryCommonUserParam) => {
-  return await queryCommonUser(params)
-}
-
-const { data, loading, run } = useRequest(fetchCommonUser, {
-  defaultParams: [{ currentPage: 1, pageSize: 10 }]
-})
-
-const pagination = ref({
-  page: 1,
-  pageCount: 1,
-  itemCount: 10,
-  pageSize: 10,
-  showSizePicker: true,
-  pageSizes: [10, 30, 50, 100],
-  onChange: (page: number) => {
-    pagination.value.page = page
-  },
-  onUpdatePageSize: (pageSize: number) => {
-    pagination.value.pageSize = pageSize
-    pagination.value.page = 1
-  }
-})
-
 const formFields: FormField[] = [
   {
     label: '用户名',
@@ -110,13 +93,91 @@ const formFields: FormField[] = [
   }
 ]
 
+const pagination = ref({
+  page: 1,
+  pageCount: 1,
+  itemCount: 10,
+  pageSize: 10,
+  showSizePicker: true,
+  pageSizes: [10, 30, 50, 100],
+  onChange: (page: number) => {
+    pagination.value.page = page
+  },
+  onUpdatePageSize: (pageSize: number) => {
+    pagination.value.pageSize = pageSize
+    pagination.value.page = 1
+  }
+})
+
+const fetchCommonUser = async (params: IQueryCommonUserParam) => {
+  return await queryCommonUser(params)
+}
+
+const handleFreezeUser = async (params: IFreezeUserParam) => {
+  return await freezeUser(params)
+}
+
+const handleUnFreezeUser = async (params: IFreezeUserParam) => {
+  return await unfreezeUser(params)
+}
+
+const { data, loading, run } = useRequest(fetchCommonUser, {
+  defaultParams: [{ currentPage: 1, pageSize: 10 }]
+})
+
+const { run: unFreezeUserRun } = useRequest(handleUnFreezeUser, {
+  manual: true,
+  onSuccess: () => {
+    message.success('解冻用户成功!')
+    run({
+      currentPage: pagination.value.page,
+      pageSize: pagination.value.pageSize
+    })
+  }
+})
+
+const { run: freezeUserRun } = useRequest(handleFreezeUser, {
+  manual: true,
+  onSuccess: () => {
+    message.success('冻结用户成功!')
+    run({
+      currentPage: pagination.value.page,
+      pageSize: pagination.value.pageSize
+    })
+  }
+})
+
+const handleRunFreeze = (param: IFreezeUserParam) => {
+  dialog.warning({
+    title: '提示',
+    content: '确定对该用户进行冻结吗？',
+    positiveText: '确定',
+    negativeText: '我再想想',
+    onPositiveClick: () => {
+      freezeUserRun(param)
+    }
+  })
+}
+
+const handleRunUnFreeze = (param: IFreezeUserParam) => {
+  dialog.warning({
+    title: '提示',
+    content: '确定对该用户进行解冻吗？',
+    positiveText: '确定',
+    negativeText: '我再想想',
+    onPositiveClick: () => {
+      unFreezeUserRun(param)
+    }
+  })
+}
+
 const onSubmit = (formData: Record<string, any>) => {
   const params = {
     currentPage: pagination.value.page,
     pageSize: pagination.value.pageSize,
     username: formData.username,
     email: formData.email,
-    isFrozen: formData.isFrozen === 1
+    isFrozen: formData.isFrozen
   }
   run(params)
 }
