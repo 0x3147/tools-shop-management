@@ -7,13 +7,21 @@ export interface FormField {
   options?: Array<{ label: string; value: string | number }> // 选项，仅对type为'select'有效
 }
 
-defineProps<{
+const props = defineProps<{
   fields: FormField[]
 }>()
 
 const emits = defineEmits(['submit', 'reset'])
 
-const formValue = ref<Record<string, string>>({})
+const formValue = ref<Record<string, any>>({})
+
+watchEffect(() => {
+  props.fields.forEach((field) => {
+    if (formValue.value[field.key] === undefined) {
+      formValue.value[field.key] = field.type === 'select' ? null : ''
+    }
+  })
+})
 
 const handleSubmit = () => {
   emits('submit', formValue.value)
