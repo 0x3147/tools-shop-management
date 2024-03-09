@@ -25,6 +25,7 @@ declare module 'vue' {
     NTable: (typeof import('naive-ui'))['NTable']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SearchForm: typeof import('./src/components/search-form/index.vue')['default']
     SideBar: typeof import('./src/components/side-bar/index.vue')['default']
     Table: typeof import('./src/components/table/index.vue')['default']
   }

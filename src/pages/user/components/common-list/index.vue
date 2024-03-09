@@ -1,5 +1,6 @@
 <script setup lang="tsx">
 import Table from '@/components/table/index.vue'
+import SearchForm, { FormField } from '@/components/search-form/index.vue'
 import { queryCommonUser } from '@/services/user'
 import type { TableColumn } from 'naive-ui/es/data-table/src/interface'
 import { useRequest } from 'vue-hooks-plus'
@@ -65,17 +66,6 @@ const columns: TableColumn[] = [
   }
 ]
 
-const selectOptions = [
-  {
-    label: '冻结',
-    value: 1
-  },
-  {
-    label: '未冻结',
-    value: 0
-  }
-]
-
 const fetchCommonUser = async (params: IQueryCommonUserParam) => {
   return await queryCommonUser(params)
 }
@@ -100,11 +90,35 @@ const pagination = ref({
   }
 })
 
-const formValue = ref({
-  username: '',
-  email: '',
-  isFrozen: null
-})
+const formFields: FormField[] = [
+  {
+    label: '用户名',
+    key: 'username',
+    placeholder: '请输入用户名',
+    type: 'text'
+  },
+  { label: '邮箱', key: 'email', placeholder: '请输入邮箱', type: 'text' },
+  {
+    label: '是否冻结',
+    key: 'isFrozen',
+    placeholder: '请选择冻结状态',
+    type: 'select',
+    options: [
+      { label: '已冻结', value: 1 },
+      { label: '未冻结', value: 0 }
+    ]
+  }
+]
+
+const onSubmit = (formData: Record<string, string>) => {
+  console.log('执行查询', formData)
+  // 执行查询逻辑
+}
+
+const onReset = () => {
+  console.log('执行重置')
+  // 执行重置逻辑
+}
 
 watch(data, (newValue) => {
   if (newValue !== undefined) {
@@ -134,28 +148,7 @@ watch(
 </script>
 
 <template>
-  <n-form inline size="large" :model="formValue">
-    <n-form-item label="用户名" path="username">
-      <n-input v-model:value="formValue.username" placeholder="请输入用户名" />
-    </n-form-item>
-    <n-form-item label="邮箱" path="email">
-      <n-input v-model:value="formValue.email" placeholder="请输入邮箱" />
-    </n-form-item>
-    <n-form-item label="是否冻结" path="isFrozen">
-      <n-select
-        class="w-44"
-        v-model:value="formValue.isFrozen"
-        :options="selectOptions"
-        placeholder="请选择冻结状态"
-      />
-    </n-form-item>
-    <n-form-item>
-      <n-button type="info" attr-type="submit"> 查询 </n-button>
-    </n-form-item>
-    <n-form-item>
-      <n-button type="default"> 重置 </n-button>
-    </n-form-item>
-  </n-form>
+  <SearchForm :fields="formFields" @submit="onSubmit" @reset="onReset" />
   <Table
     :data="data?.tableData"
     :loading="loading"
