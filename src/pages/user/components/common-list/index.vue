@@ -110,14 +110,22 @@ const formFields: FormField[] = [
   }
 ]
 
-const onSubmit = (formData: Record<string, string>) => {
-  console.log('执行查询', formData)
-  // 执行查询逻辑
+const onSubmit = (formData: Record<string, any>) => {
+  const params = {
+    currentPage: pagination.value.page,
+    pageSize: pagination.value.pageSize,
+    username: formData.username,
+    email: formData.email,
+    isFrozen: formData.isFrozen === 1
+  }
+  run(params)
 }
 
 const onReset = () => {
-  console.log('执行重置')
-  // 执行重置逻辑
+  run({
+    currentPage: pagination.value.page,
+    pageSize: pagination.value.pageSize
+  })
 }
 
 watch(data, (newValue) => {
