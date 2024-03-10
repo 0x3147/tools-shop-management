@@ -1,3 +1,23 @@
+interface IUserInfo {
+  postId: number | bigint
+  username: string
+  email: string
+  isAdmin: boolean
+  roles: string[]
+  permissions: string[]
+  createTime: Date
+}
+
+export interface ILoginUserRes {
+  userInfo: IUserInfo
+  token: string
+}
+
+export interface ILoginUserParam {
+  username: string
+  password: string
+}
+
 export interface IQueryCommonUserParam {
   currentPage: number
   pageSize: number

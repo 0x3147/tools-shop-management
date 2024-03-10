@@ -1,6 +1,19 @@
-import type { IQueryCommonUserParam } from '@/services/user/types'
-import { IFreezeUserParam, IQCommonUserRes } from '@/services/user/types'
+import type {
+  ILoginUserParam,
+  IQueryCommonUserParam
+} from '@/services/user/types'
+import {
+  IFreezeUserParam,
+  ILoginUserRes,
+  IQCommonUserRes
+} from '@/services/user/types'
 import axios from '../index.ts'
+
+const adminLogin = async (param: ILoginUserParam) => {
+  const url = '/user/admin/login'
+  const res: ILoginUserRes = await axios.post(url, param)
+  return res || {}
+}
 
 const queryCommonUser = async (
   param: IQueryCommonUserParam
@@ -22,4 +35,4 @@ const unfreezeUser = async (param: IFreezeUserParam) => {
   return res || {}
 }
 
-export { freezeUser, queryCommonUser, unfreezeUser }
+export { adminLogin, freezeUser, queryCommonUser, unfreezeUser }
