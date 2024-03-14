@@ -38,6 +38,13 @@ const queryMember = async (
   return res || {}
 }
 
+const upgradeUser = async (param: IFreezeUserParam) => {
+  const url = '/user/upgrade'
+  const finalParam = { ...param, permissions }
+  const res: IQCommonUserRes = await axios.post(url, finalParam)
+  return res || {}
+}
+
 const freezeUser = async (param: IFreezeUserParam) => {
   const url = '/user/freeze'
   const finalParam = { ...param, permissions }
@@ -52,4 +59,11 @@ const unfreezeUser = async (param: IFreezeUserParam) => {
   return res || {}
 }
 
-export { adminLogin, freezeUser, queryCommonUser, queryMember, unfreezeUser }
+export {
+  adminLogin,
+  freezeUser,
+  queryCommonUser,
+  queryMember,
+  unfreezeUser,
+  upgradeUser
+}

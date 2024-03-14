@@ -1,7 +1,12 @@
 <script setup lang="tsx">
 import Table from '@/components/table/index.vue'
 import SearchForm, { FormField } from '@/components/search-form/index.vue'
-import { freezeUser, queryCommonUser, unfreezeUser } from '@/services/user'
+import {
+  freezeUser,
+  queryCommonUser,
+  unfreezeUser,
+  upgradeUser
+} from '@/services/user'
 import type { TableColumn } from 'naive-ui/es/data-table/src/interface'
 import { useRequest } from 'vue-hooks-plus'
 import type {
@@ -27,7 +32,9 @@ const columns: TableColumn[] = [
             type="success"
             size="small"
             onClick={() => {
-              console.log(row)
+              handleRunUpgradeUser({
+                postId: row.postId
+              })
             }}
           >
             升级会员
@@ -121,6 +128,10 @@ const handleUnFreezeUser = async (params: IFreezeUserParam) => {
   return await unfreezeUser(params)
 }
 
+const handleUpgradeUser = async (params: IFreezeUserParam) => {
+  return await upgradeUser(params)
+}
+
 const { data, loading, run } = useRequest(fetchCommonUser, {
   defaultParams: [{ currentPage: 1, pageSize: 10 }]
 })
@@ -140,6 +151,17 @@ const { run: freezeUserRun } = useRequest(handleFreezeUser, {
   manual: true,
   onSuccess: () => {
     message.success('冻结用户成功!')
+    run({
+      currentPage: pagination.value.page,
+      pageSize: pagination.value.pageSize
+    })
+  }
+})
+
+const { run: upgradeUserRun } = useRequest(handleUpgradeUser, {
+  manual: true,
+  onSuccess: () => {
+    message.success('升级用户成功!')
     run({
       currentPage: pagination.value.page,
       pageSize: pagination.value.pageSize
@@ -167,6 +189,18 @@ const handleRunUnFreeze = (param: IFreezeUserParam) => {
     negativeText: '我再想想',
     onPositiveClick: () => {
       unFreezeUserRun(param)
+    }
+  })
+}
+
+const handleRunUpgradeUser = (param: IFreezeUserParam) => {
+  dialog.warning({
+    title: '提示',
+    content: '确定将该用户升级为会员吗？',
+    positiveText: '确定',
+    negativeText: '我再想想',
+    onPositiveClick: () => {
+      upgradeUserRun(param)
     }
   })
 }
