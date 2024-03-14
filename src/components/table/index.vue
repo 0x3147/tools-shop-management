@@ -78,7 +78,7 @@ const finalColumns = computed(() => {
 <template>
   <n-data-table
     remote
-    :max-height="560"
+    :max-height="460"
     virtual-scroll
     :single-line="false"
     single-column

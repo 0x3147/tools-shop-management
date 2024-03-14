@@ -19,6 +19,10 @@ export const useAuthStore = defineStore('auth', {
       this.tokenExpiry = dayjs().add(7, 'day').valueOf()
     },
 
+    getToken() {
+      return this.loginUser?.token
+    },
+
     isTokenExpired(): boolean {
       if (!this.tokenExpiry) return true
       const now = dayjs().valueOf()

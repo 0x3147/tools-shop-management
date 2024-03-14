@@ -14,8 +14,9 @@ export interface ILoginUserRes {
 }
 
 export interface ILoginUserParam {
-  username: string
-  password: string
+  username: string | null
+  password: string | null
+  permissions: string[]
 }
 
 export interface IQueryCommonUserParam {

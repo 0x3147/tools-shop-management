@@ -1,5 +1,26 @@
 <script setup lang="ts">
 import { PersonOutline, LockClosedOutline } from '@vicons/ionicons5'
+import { useRequest } from 'vue-hooks-plus'
+import { adminLogin } from '@/services/user'
+import { FormInst, useMessage } from 'naive-ui'
+import { useAuthStore } from '@/store/authStore.ts'
+
+const useStore = useAuthStore()
+
+const message = useMessage()
+
+const router = useRouter()
+
+const { loading, run: loginRun } = useRequest(adminLogin, {
+  manual: true,
+  onSuccess: (res) => {
+    useStore.saveLoginUser(res)
+    message.success('登录成功!')
+    router.replace('/')
+  }
+})
+
+const formRef = ref<FormInst | null>(null)
 
 const loginFormModel = ref({
   username: null,
@@ -11,12 +32,28 @@ const rules = {
   password: [{ required: true, message: '密码为必填项', trigger: 'blur' }]
 }
 
-const handleSubmit = () => {}
+const handleSubmit = (e: MouseEvent) => {
+  e.preventDefault()
+  formRef.value?.validate((errors) => {
+    if (!errors) {
+      const { username, password } = loginFormModel.value
+
+      const params = {
+        username,
+        password,
+        permissions: ['have_all_permissions']
+      }
+      loginRun(params)
+    } else {
+      message.error('请填写必填信息!')
+    }
+  })
+}
 </script>
 
 <template>
   <main
-    class="bg-login-background flex h-screen flex-col bg-[length:100%] bg-center bg-no-repeat"
+    class="flex h-screen flex-col bg-login-background bg-[length:100%] bg-center bg-no-repeat"
   >
     <section class="p-8 text-center">
       <div></div>
@@ -24,6 +61,7 @@ const handleSubmit = () => {}
     </section>
     <section class="mx-auto min-w-min max-w-lg flex-1 p-8">
       <n-form
+        ref="formRef"
         label-placement="left"
         size="large"
         :model="loginFormModel"
@@ -56,7 +94,13 @@ const handleSubmit = () => {}
           </n-input>
         </n-form-item>
         <n-form-item>
-          <n-button type="info" @click="handleSubmit" size="large" block>
+          <n-button
+            type="info"
+            @click="handleSubmit"
+            size="large"
+            :loading="loading"
+            block
+          >
             登录
           </n-button>
         </n-form-item>
