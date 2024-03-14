@@ -5,7 +5,7 @@
     <n-space class="cursor-pointer" align="center">
       <img class="h-16" src="../../assets/logo.png" alt="" />
       <n-gradient-text class="text-3xl" type="danger">
-        jump management
+        JUMP MANAGEMENT
       </n-gradient-text>
     </n-space>
   </n-layout-header>

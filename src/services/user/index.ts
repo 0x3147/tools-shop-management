@@ -29,6 +29,15 @@ const queryCommonUser = async (
   return res || {}
 }
 
+const queryMember = async (
+  param: IQueryCommonUserParam
+): Promise<IQCommonUserRes> => {
+  const url = '/user-query/member'
+  const finalParam = { ...param, permissions }
+  const res: IQCommonUserRes = await axios.post(url, finalParam)
+  return res || {}
+}
+
 const freezeUser = async (param: IFreezeUserParam) => {
   const url = '/user/freeze'
   const finalParam = { ...param, permissions }
@@ -43,4 +52,4 @@ const unfreezeUser = async (param: IFreezeUserParam) => {
   return res || {}
 }
 
-export { adminLogin, freezeUser, queryCommonUser, unfreezeUser }
+export { adminLogin, freezeUser, queryCommonUser, queryMember, unfreezeUser }
