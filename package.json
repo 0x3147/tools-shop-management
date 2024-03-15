@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "test": "vite --mode test",
-    "build": "vue-tsc && vite build",
+    "build:prod": "vite build",
+    "build:test": "vite build --mode test",
     "preview": "vite preview",
     "format": "prettier --write ."
   },
