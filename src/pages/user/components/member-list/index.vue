@@ -1,7 +1,12 @@
 <script setup lang="tsx">
 import Table from '@/components/table/index.vue'
 import SearchForm, { FormField } from '@/components/search-form/index.vue'
-import { freezeUser, queryMember, unfreezeUser } from '@/services/user'
+import {
+  freezeUser,
+  queryMember,
+  unfreezeUser,
+  downgradeUser
+} from '@/services/user'
 import type { TableColumn } from 'naive-ui/es/data-table/src/interface'
 import { useRequest } from 'vue-hooks-plus'
 import { useDialog, useMessage } from 'naive-ui'
@@ -27,7 +32,9 @@ const columns: TableColumn[] = [
             type="success"
             size="small"
             onClick={() => {
-              console.log(row)
+              handleRunDowngrade({
+                postId: row.postId
+              })
             }}
           >
             降级
@@ -121,6 +128,10 @@ const handleUnFreezeUser = async (params: IFreezeUserParam) => {
   return await unfreezeUser(params)
 }
 
+const handleDowngradeUser = async (params: IFreezeUserParam) => {
+  return await downgradeUser(params)
+}
+
 const { run, data, loading } = useRequest(fetchMember, {
   defaultParams: [{ currentPage: 1, pageSize: 10 }]
 })
@@ -140,6 +151,17 @@ const { run: freezeUserRun } = useRequest(handleFreezeUser, {
   manual: true,
   onSuccess: () => {
     message.success('冻结用户成功!')
+    run({
+      currentPage: pagination.value.page,
+      pageSize: pagination.value.pageSize
+    })
+  }
+})
+
+const { run: downgradeUserRun } = useRequest(handleDowngradeUser, {
+  manual: true,
+  onSuccess: () => {
+    message.success('用户降级成功!')
     run({
       currentPage: pagination.value.page,
       pageSize: pagination.value.pageSize
@@ -167,6 +189,18 @@ const handleRunUnFreeze = (param: IFreezeUserParam) => {
     negativeText: '我再想想',
     onPositiveClick: () => {
       unFreezeUserRun(param)
+    }
+  })
+}
+
+const handleRunDowngrade = (param: IFreezeUserParam) => {
+  dialog.warning({
+    title: '提示',
+    content: '确定对该用户进行降级吗？',
+    positiveText: '确定',
+    negativeText: '我再想想',
+    onPositiveClick: () => {
+      downgradeUserRun(param)
     }
   })
 }

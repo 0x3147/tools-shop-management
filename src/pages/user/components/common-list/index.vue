@@ -28,6 +28,7 @@ const columns: TableColumn[] = [
       return (
         <n-space>
           <n-button
+            disabled={row.isFrozen}
             text
             type="success"
             size="small"
