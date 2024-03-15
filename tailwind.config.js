@@ -4,7 +4,7 @@ export default {
   theme: {
     extend: {
       backgroundImage: (theme) => ({
-        'login-background': "url('src/assets/login.svg')"
+        'login-background': "url('/login.svg')"
       })
     }
   },

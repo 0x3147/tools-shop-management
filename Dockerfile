@@ -1,12 +1,19 @@
-# 基于nginx的官方镜像
+# Stage 1: Build the React/Vue/Angular app
+FROM node:18 AS build-stage
+
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+RUN npm run build:test
+
+# Stage 2: Serve the app from Nginx
 FROM nginx:alpine
 
-# 将dist目录（构建产出物）复制到nginx的服务目录
-COPY dist/ /usr/share/nginx/html/
+COPY --from=build-stage /app/dist /usr/share/nginx/html/
 
-# 暴露80端口
 EXPOSE 80
-
-# 启动nginx
 CMD ["nginx", "-g", "daemon off;"]
+
+
 
