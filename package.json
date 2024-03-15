@@ -11,6 +11,7 @@
     "build:dev": "vite build --mode development",
     "preview:prod": "vite preview",
     "preview:test": "vite preview --mode test",
+    "preview:dev": "vite preview --mode dev",
     "format": "prettier --write ."
   },
   "dependencies": {

@@ -1,4 +1,8 @@
-import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
+import {
+  createRouter,
+  createWebHashHistory,
+  type RouteRecordRaw
+} from 'vue-router'
 import { createAuthGuard } from './guard'
 
 // 使用 glob 导入来自动导入 module 目录下的所有路由模块
@@ -26,7 +30,7 @@ for (const path in routeModuleFiles) {
 }
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHashHistory(),
   routes
 })
 
