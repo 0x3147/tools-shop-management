@@ -8,6 +8,7 @@
     "test": "vite --mode test",
     "build:prod": "vite build",
     "build:test": "vite build --mode test",
+    "build:dev": "vite build --mode development",
     "preview:prod": "vite preview",
     "preview:test": "vite preview --mode test",
     "format": "prettier --write ."
